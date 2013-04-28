@@ -21,12 +21,29 @@ a:hover {
 p {
 	margin: 0 0 18px
 }
+form {
+ width: 500px;
+ overflow:hidden;}
+
+label {
+ clear: both;
+ float: left;
+ width: 40%;}
+
+input {
+ float: left;
+ width: 55%;
+ vertical-align: middle;
+ }
 img {
 	border: none;
 }
-input {
-	vertical-align: middle;
-}
+form {
+position:relative;
+top:100px;
+    }
+	
+	v
 #wrapper {
 	min-width: 800px;
 	max-width: 1500px;
@@ -90,6 +107,34 @@ input {
 	position: relative;
 }
 
+#login{
+ position:absolute;
+ font:20px arial,sans-serif;
+  top:50%;
+  left:50%;
+   width: 500px;
+   height: 250px;
+  margin-top:-125px; 
+  margin-left:-250px;
+  color: #603216;
+	background: #fecccc; /* Old browsers */
+background: -moz-linear-gradient(top,  #fecccc 0%, #feaaaa 45%, #ff8383 100%); /* FF3.6+ */
+background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#fecccc), color-stop(45%,#feaaaa), color-stop(100%,#ff8383)); /* Chrome,Safari4+ */
+background: -webkit-linear-gradient(top,  #fecccc 0%,#feaaaa 45%,#ff8383 100%); /* Chrome10+,Safari5.1+ */
+background: -o-linear-gradient(top,  #fecccc 0%,#feaaaa 45%,#ff8383 100%); /* Opera 11.10+ */
+background: -ms-linear-gradient(top,  #fecccc 0%,#feaaaa 45%,#ff8383 100%); /* IE10+ */
+background: linear-gradient(to bottom,  #fecccc 0%,#feaaaa 45%,#ff8383 100%); /* W3C */
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fecccc', endColorstr='#ff8383',GradientType=0 ); /* IE6-9 */
+
+	-moz-border-radius-bottomright: 10px;
+border-bottom-right-radius: 10px;
+-moz-border-radius-bottomleft: 10px;
+border-bottom-left-radius: 10px;
+-moz-border-radius-topright: 10px;
+border-top-right-radius: 10px;
+-moz-border-radius-topleft: 10px;
+border-top-left-radius: 10px;
+}
 /* Image map */
 <style type="text/css">
 	dl.image_map {display:block; width:1024px; height:496px; background-image:url('banner.png'); position:relative; margin:2px auto 2px auto;}
