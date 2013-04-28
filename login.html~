@@ -15,7 +15,7 @@
  		<fieldset style="border: 0">
    			<label>Student ID</label><input type="text" id='name'/><br />
    			 <label>Password</label><input type="password" id='password'/><br /><br/>
-			<a href="#" class="button brown">Button</a>
+			<a href="#" class="button blown">Button</a>
 		</fieldset>
 		</form> 
 	</div>
