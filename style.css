@@ -1,0 +1,119 @@
+* {
+	margin: 0;
+	padding: 0;
+}
+html {
+	height: 100%;
+}
+body {
+	font: 12px/18px Arial, Tahoma, Verdana, sans-serif;
+	height: 100%;
+	background-image:url('back.png');
+}
+a {
+	color: blue;
+	outline: none;
+	text-decoration: underline;
+}
+a:hover {
+	text-decoration: none;
+}
+p {
+	margin: 0 0 18px
+}
+img {
+	border: none;
+}
+input {
+	vertical-align: middle;
+}
+#wrapper {
+	min-width: 800px;
+	max-width: 1500px;
+	margin: 0 auto;
+	min-height: 100%;
+	height: auto !important;
+	height: 100%;
+}
+
+
+/* Header
+-----------------------------------------------------------------------------*/
+#header {
+	height: 800px;
+	background: #FFE680;
+}
+
+
+/* Middle
+-----------------------------------------------------------------------------*/
+#middle {
+	width: 100%;
+	padding: 0 0 100px;
+	height: 1%;
+	position: relative;
+}
+#middle:after {
+	content: '';
+	clear: both;
+	display: table;
+}
+#container {
+	width: 100%;
+	float: left;
+	overflow: hidden;
+}
+#content {
+	padding: 0 0 0 270px;
+}
+
+
+/* Sidebar Left
+-----------------------------------------------------------------------------*/
+#sideLeft {
+	float: left;
+	width: 250px;
+	margin-left: -100%;
+	position: relative;
+	background: #B5E3FF;
+}
+
+
+/* Footer
+-----------------------------------------------------------------------------*/
+#footer {
+	margin: -100px auto 0;
+	min-width: 800px;
+	max-width: 1500px;
+	height: 100px;
+	background: #BFF08E;
+	position: relative;
+}
+
+/* Image map */
+<style type="text/css">
+	dl.image_map {display:block; width:1024px; height:496px; background-image:url('banner.png'); position:relative; margin:2px auto 2px auto;}
+	a.LINK0 {left:618px; top:2px; background:transparent;}
+	a.LINK0 {display:block; width:79px; height:0; padding-top:52px; overflow:hidden; position:absolute;}
+	a.LINK0:hover  {background:transparent; border:1px dashed black; color:black;}
+	a.LINK1 {left:727px; top:4px; background:transparent;}
+	a.LINK1 {display:block; width:79px; height:0; padding-top:52px; overflow:hidden; position:absolute;}
+	a.LINK1:hover  {background:transparent; border:1px dashed black; color:black;}
+	a.LINK2 {left:831px; top:2px; background:transparent;}
+	a.LINK2 {display:block; width:79px; height:0; padding-top:52px; overflow:hidden; position:absolute;}
+	a.LINK2:hover  {background:transparent; border:1px dashed black; color:black;}
+	a.LINK3 {left:927px; top:0px; background:transparent;}
+	a.LINK3 {display:block; width:94px; height:0; padding-top:52px; overflow:hidden; position:absolute;}
+	a.LINK3:hover  {background:transparent; border:1px dashed black; color:black;}
+	a.BLINK {left:1022px; top:494px; background:transparent;}
+	a.BLINK {display:block; width:202px; height:17px; overflow:hidden; position:absolute; font-size:0px;}
+	a.BLINK:hover  {background:black; border:1px dashed white; color:white; font-size:9px;}
+</style>
+
+<dl class="image_map">
+	<dd><a class="LINK0" title="" href="index.html"></a></dd>
+	<dd><a class="LINK1" title="" href="about.html"></a></dd>
+	<dd><a class="LINK2" title="login.html" href=""></a></dd>
+	<dd><a class="LINK3" title="" href="contact.html"></a></dd>
+</dl>
+
