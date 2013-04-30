@@ -193,3 +193,14 @@ input.button {
     width: 100px;
     margin: 10px auto;
     }
+
+
+
+/* Links
+---------------------------*/
+#links
+{
+position: absolute;
+height: 0px;
+
+}
