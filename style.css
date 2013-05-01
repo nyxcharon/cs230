@@ -53,7 +53,6 @@ top:100px;
 	height: 100%;
 }
 
-
 /* Header
 -----------------------------------------------------------------------------*/
 #header {
@@ -69,38 +68,38 @@ background: url(mubanner3.png) no-repeat center top;
 /* Middle
 -----------------------------------------------------------------------------*/
 #middle {
-	width: 100%;
-	padding: 0 0 100px;
-	height: 1%;
-	position: relative;
-}
-#middle:after {
-	content: '';
-	clear: both;
-	display: table;
-}
-#container {
-	width: 100%;
-	float: left;
-	overflow: hidden;
-}
-#content {
-	padding: 0 0 0 270px;
-}
+	width: 80%;
+	height: 80%;
+	position: absolute;
+	left:325px;
+	top:220px;
+	opacity:0.6;
+	filter:alpha(opacity=60);
+	background:#000000;
+        border-bottom-right-radius: 20px;
+	-moz-border-radius-bottomleft: 20px;
+	border-bottom-left-radius: 20px;
+	-moz-border-radius-topright: 20px;
+	border-top-right-radius: 20px;
+	-moz-border-radius-topleft: 20px;
+	-moz-border-radius-topleft: 10px;
+	border-top-left-radius: 10px;
 
+
+}
 
 /* Sidebar Left
 -----------------------------------------------------------------------------*/
 #sideLeft {
-	width: 250px;
-	height: 100%;
-	position:absolute;
-	left:0px;
-	top:165px;
-	padding-left:20px;
-	background: #DD7676;
-	font:14px arial,sans-serif;
-	text-decoration:none;
+    width: 250px;
+    height: 100%;
+    position:absolute;
+    left:0px;
+    top:165px;
+    padding-left:20px;
+    background: #DD7676;
+    font:16px arial,sans-serif;
+    text-decoration:none;
 }
 
 
