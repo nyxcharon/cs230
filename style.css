@@ -82,8 +82,8 @@ background: url(mubanner3.png) no-repeat center top;
 	-moz-border-radius-topright: 20px;
 	border-top-right-radius: 20px;
 	-moz-border-radius-topleft: 20px;
-	-moz-border-radius-topleft: 10px;
-	border-top-left-radius: 10px;
+	-moz-border-radius-topleft: 20px;
+	border-top-left-radius: 20px;
 
 
 }
@@ -95,11 +95,14 @@ background: url(mubanner3.png) no-repeat center top;
     height: 100%;
     position:absolute;
     left:0px;
-    top:165px;
+    top:220px;
     padding-left:20px;
     background: #DD7676;
     font:16px arial,sans-serif;
     text-decoration:none;
+     -moz-border-radius-topright: 20px;
+        border-top-right-radius: 20px;
+
 }
 
 
