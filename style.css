@@ -21,6 +21,12 @@ a:link{
 a:hover {
 	text-decoration: none;
 }
+h2{
+    text-align:center;
+}
+h3{
+text-align:center;
+}
 form {
  width: 500px;
  overflow:hidden;}
@@ -88,6 +94,17 @@ background: url(mubanner3.png) no-repeat center top;
 
 }
 
+#middleText{
+    position:relative;
+    left: 50px;
+    top: 50px;
+    width: 93%;
+    height: 87%;
+    font:22px arial,sans-serif;
+    font-weight:bold;
+    color: #FFFFFF 
+   
+}
 /* Sidebar Left
 -----------------------------------------------------------------------------*/
 #sideLeft {
