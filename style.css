@@ -13,8 +13,11 @@ body {
 a {
 	color: blue;
 	outline: none;
-	text-decoration: underline;
+	text-decoration: none;
 }
+a:link{
+    color:#5b480e;
+    }
 a:hover {
 	text-decoration: none;
 }
@@ -94,7 +97,10 @@ background: url(mubanner3.png) no-repeat center top;
 	position:absolute;
 	left:0px;
 	top:165px;
+	padding-left:20px;
 	background: #DD7676;
+	font:14px arial,sans-serif;
+	text-decoration:none;
 }
 
 
