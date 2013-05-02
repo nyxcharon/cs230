@@ -16,10 +16,16 @@ a {
     text-decoration: none;
 }
 a:link{
-    color:#5b480e;
+    font-weight:bold;
+    color:#FFFFFF;
+    font: 18px Arial, Tahoma, Verdana, sans-serif;
     }
 a:hover {
     text-decoration: none;
+}
+a:visited{
+    font-weight:bold;
+    color:#FFFFFF;
 }
 h2{
     text-align:center;
@@ -119,6 +125,8 @@ background: url(mubanner3.png) no-repeat center top;
     text-decoration:none;
      -moz-border-radius-topright: 20px;
         border-top-right-radius: 20px;
+    opacity:0.4;
+    filter:alpha(opacity=40);
 
 }
 

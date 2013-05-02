@@ -1,0 +1,50 @@
+!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<title></title>
+	<meta name="keywords" content="" />
+	<meta name="description" content="" />
+	<link rel="stylesheet" href="../style.css" type="text/css" media="screen, projection" />
+</head>
+
+<body>
+	<div id="header"></div>
+		<div id="sideLeft" text-align:"center" ><br/><p>Menu</p><br/>
+		  <a href="vote.html">Vote in a Poll</a></br>
+		  <a href="previous.html">View Previous Polls</a></br>
+                  <a href="current.html">View Current Polls</a></br>
+
+	
+	</div>
+	<div id="middle">
+	  
+	  <div id="middleText">
+	    <h2>Choose the Homecoming Court and click the Vote button. </h2><br/><br/><br/>
+		  
+	    <div id="kro"><input type="radio" name="vote" value="kro">Mark Zuckerberg</br>
+	      <img src="mark.jpg" alt="kro" height="200" width="200">
+	    </div>
+
+	    <div id="tanner"><input type="radio" name="vote" value="tanner">Macklemore</br>
+	      <img src="mack.jpg" alt="tanner" height="200" width="200"></br></br></br></br></br>
+              <a href="professorPost.html" class="button brown">Vote!</a>
+	    </div>
+
+	    <div id="ray"><input type="radio" name="vote" value="ray">The Stig</br>
+	      <img src="stig.jpg" alt="morehead" height="200" width="200">
+
+	     
+	    </div>
+
+
+	 
+
+	    </div>
+	  </div>
+	
+
+
+
+</body>
+</html>

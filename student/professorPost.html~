@@ -1,0 +1,34 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<title></title>
+	<meta name="keywords" content="" />
+	<meta name="description" content="" />
+	<link rel="stylesheet" href="../style.css" type="text/css" media="screen, projection" />
+</head>
+
+<body>
+	<div id="header"></div>
+		<div id="sideLeft" text-align:"center" ><br/><p>Menu</p><br/>
+		  <a href="vote.html">Vote in a Poll</a></br>
+		  <a href="previous.html">View Previous Polls</a></br>
+                  <a href="current.html">View Current Polls</a></br>
+
+	
+	</div>
+	<div id="middle">
+	  
+	  <div id="middleText">
+	    <h2>Thank You for Voting! </h2><br/><br/><br/>
+		  <h3>Use the Links to the Left to Navigate the Site</h3>
+		
+
+	    </div>
+	  </div>
+	
+
+
+
+</body>
+</html>

@@ -1,0 +1,49 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<title></title>
+	<meta name="keywords" content="" />
+	<meta name="description" content="" />
+	<link rel="stylesheet" href="../style.css" type="text/css" media="screen, projection" />
+</head>
+
+<body>
+	<div id="header"></div>
+		<div id="sideLeft" text-align:"center" ><br><p>Menu</p><br>
+		  <a href="cballot.html">Create Ballot</a><br>
+		  <a href="rballot.html">Remove Ballot</a><br>
+		  <a href="lballot.html">Limit Ballot</a><br>
+                  <a href="addq.html">Add Question</a><br>
+		  <a href="remq.html">Remove Question</a><br>
+		  <a href="addc.html">Add Canidate</a><br>
+		  <a href="remc.html">Remove Canidate</a><br>
+		  <a href="opene.html">Open Election</a><br>
+		  <a href="closee.html">Close Election</a><br>
+
+
+	</div>
+	<div id="middle">
+	  
+	  <div id="middleText">
+	    <h2>Election Commissioner </h2><br/><br/><br/>
+		  <h3>Enter the name of a ballot as well as an organization to limit the ballot to that specified group</h3>
+		     <form style="margin: 0 auto; width: 600px;" text-align:"center";>
+                       <fieldset style="border: 0">
+                        <label>Election Name </label><input type="text" id='name'/><br><br><br>
+			       <label>Organization Name </label><input type="text" id='name'/><br><br><br>
+			      <div style="text-align:center;">
+			      <a href="lballotpost.html" class="button brown">Submit</a>
+			      </div>
+                </fieldset>
+                </form>
+
+
+	  </div>
+	  </div>
+	
+
+
+
+</body>
+</html>
