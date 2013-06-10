@@ -1,2 +1,1 @@
-CS230 Website code. NEAT!
-=========================
+WVU Undergraduate Work
