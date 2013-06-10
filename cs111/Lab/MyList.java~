@@ -1,0 +1,56 @@
+public class MyList<T>
+{
+    Node<T> head;
+    public MyList()
+    {
+	head=null;
+    }
+    
+    public T front()
+    {
+	return head.getData();
+    }
+
+    public void add(T it)
+    {
+	if(head==null)
+	    {
+	    head=new Node(it);
+	    }
+	else
+	    {
+		Node<T> curr=head;
+		while(curr.getNext()!=null)
+		    {
+			curr=curr.getNext();
+		       
+		    }
+		curr.setNext(new Node<T>(it));
+	    }
+    }
+
+    public T remove()
+    {
+	if(empty())
+	    return null;
+	else
+	    head=head.getNext();
+
+	return head;
+    }
+
+    public boolean empty()
+    {
+	return head == null; 
+    }
+
+    public void display()
+    {
+	Node<t> c;
+	while(!empty()
+	      {
+		  head=head.getNext();
+		  return head;
+	      }
+    }
+}

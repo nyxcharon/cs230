@@ -1,0 +1,58 @@
+/*
+Barry Martin
+CS111 Sec4
+Corey Hinkle
+*/
+
+
+public class Lab8
+{
+    Queue<Person> q=new LinkedList<Person>();
+    public static void main(String[] args)
+    {
+	Scanner in=new Scanner(System.in);
+	boolean done=false;
+	while(!done)
+	    {
+		System.out.println("Please enter a choice from the menu: ");
+		System.out.println("1.Create a person and add to queue");
+		System.out.println("2.Display queue");
+		System.out.println("3.Remove a person from the queue and display it");
+		System.out.println("4.Display the next person in the queue");
+		System.out.println("5.Exit program");
+		in=in.next();
+		
+		if(in.equals("1"))
+		    addPerson();
+		else if(in.equals("2")
+		    displayQueue();
+		else if (in.equals("3")
+		    removePerson();
+		else if (in.equals("4")
+		    displayNextQueue();
+		else if (in.equals("5")
+		    done=true;
+
+    }
+
+    public void addPerson()
+    {
+
+    }
+    
+    public void removePerson()
+    {
+
+    }
+
+    public void displayQueue()
+    {
+
+    }
+    
+    public displayNextQueue()
+    {
+
+    }
+
+}

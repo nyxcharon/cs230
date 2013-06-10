@@ -1,0 +1,36 @@
+pyuublic class Transaction
+{
+    String acctNum;
+    String transType;
+    Double amount;
+    Date date;
+    
+    public Transaction(String acctNum,String transType,Double amount,Date date)
+    {
+	this.acctNum=acctNum;
+	this.transType=transType;
+	this.amount=amount;
+	this.date=date;
+    }
+
+    public String getAcctNum()
+    {
+	return acctNum;
+    }
+
+    public String getTransType()
+    {
+	return transType;
+    }
+    
+    public String getAmount()
+    {
+	return amount;
+    }
+
+    public String getDate()
+    {
+	return date;
+    }
+
+}

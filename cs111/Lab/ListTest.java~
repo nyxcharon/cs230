@@ -1,0 +1,9 @@
+public class TestList
+{
+    public static void main(String[] args)
+    {
+	MyList<Person> l=new MyList<Person>();
+	l.add(new Person());
+    }
+
+}
