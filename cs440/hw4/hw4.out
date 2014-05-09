@@ -1,0 +1,158 @@
+sqlplus>@hw4.sql
+sqlplus>/*
+sqlplus>	Barry Martin
+sqlplus>	CS 440
+sqlplus>	Assignment 4
+sqlplus>	February 12, 2014
+sqlplus>*/
+sqlplus>
+sqlplus>
+sqlplus>/* 1. */
+sqlplus>   --a.
+sqlplus>   select distinct pname from p join sp using (p#) where s# = 's1' or s# = 's2' or s# = 's4';
+PNAME
+----------
+router
+ladder
+hammer
+pliers
+stapler
+wrench
+
+6 rows selected.
+
+sqlplus>
+sqlplus>   --b.
+sqlplus>   select distinct pname from p join sp a using (p#) join sp b using(p#) join sp c using(p#) where a.s# = 's1' and b.s# = 's2' and c.s# = 's4';
+PNAME
+----------
+pliers
+stapler
+
+sqlplus>
+sqlplus>/* 2. */
+sqlplus>select sname from s join sp using (s#) where p# in (select p# from sp join p using (p#) where color='red') group by sname having count(p#) = (select count(p#) from p where color ='red');
+SNAME
+-----
+smith
+
+sqlplus>
+sqlplus>/* 3. */
+sqlplus>select distinct s# from sp where s# not in (select s# from sp where p# = 'p5') and s# in (select s# from sp where p#='p4');
+S#
+--
+s4
+
+sqlplus>
+sqlplus>/* 4. */
+sqlplus>select sname from s join sp using (s#) where qty = (select max(qty) from sp where qty not in (select max(qty) from sp));
+SNAME
+-----
+smith
+
+sqlplus>
+sqlplus>/* 5. */
+sqlplus>select sname from s a where (select count(p#) from sp where a.s#=s#) >=2
+  2  intersect
+  3  select distinct sname from sp join s using (s#) where s# not in (select s# from sp where p#='p3');
+SNAME
+-----
+jones
+
+sqlplus>
+sqlplus>/* 6. */
+sqlplus>select sname,a.qty,b.qty,c.qty from s join sp a using (s#) join sp b using (s#) join sp c using(s#) where a.qty>b.qty and b.qty>c.qty and sname in (select sname from s d where (select count(p#) from sp where d.s#=s#) >=3) group by sname,a.qty,b.qty,c.qty;
+SNAME        QTY        QTY        QTY
+----- ---------- ---------- ----------
+smith        210        150        100
+smith        240        200        150
+smith        200        150        120
+smith        210        200        120
+smith        200        150        100
+smith        240        150        120
+smith        210        150        120
+smith        150        120        100
+smith        240        210        200
+clark        250        120        100
+smith        240        150        100
+smith        240        200        100
+smith        240        210        150
+smith        210        120        100
+smith        210        200        150
+smith        200        120        100
+smith        240        120        100
+smith        210        200        100
+smith        240        210        120
+smith        240        200        120
+smith        240        210        100
+
+21 rows selected.
+
+sqlplus>
+sqlplus>/* 7. */
+sqlplus>select sname,min(qty) from s join sp using (s#) group by sname having max(qty) > (select max(qty) from sp where p#='p2');
+SNAME   MIN(QTY)
+----- ----------
+clark        100
+smith        100
+
+sqlplus>
+sqlplus>/* 8. */
+sqlplus>break on sname;
+sqlplus>select sname, pname, qty,
+  2  max(qty) over (partition by sname) "Max Qty Supplied",
+  3  max(qty) over (partition by pname) "Max Qty for P#"
+  4  from sp a join s b on a.s#=b.s# join p c on a.p#=c.p#;
+SNAME PNAME             QTY Max Qty Supplied Max Qty for P#
+----- ---------- ---------- ---------------- --------------
+adams hammer            150              150            150
+clark router            100              250            150
+      stapler           250              250            250
+      pliers            120              250            200
+jones pliers                             120            200
+      stapler           100              120            250
+      wrench            120              120            240
+smith router            150              240            150
+      hammer            100              240            150
+      wrench            240              240            240
+      stapler           120              240            250
+      ladder            210              240            210
+      pliers            200              240            200
+
+13 rows selected.
+
+sqlplus>clear breaks;
+sqlplus>
+sqlplus>/* 9. */
+sqlplus>select ename, level-1 "Level" from emp
+  2  where upper(ename)!='ADAMS' and upper(job)!='ANALYST'
+  3  start with upper(ename)='ADAMS' connect by prior mgr=empno;
+ENAME                Level
+--------------- ----------
+JONES                    2
+KING                     3
+
+sqlplus>
+sqlplus>/* 10. */
+sqlplus>col ENAME format a15;
+sqlplus>select lpad(' ', 2*(level-1))||ename ENAME,
+  2  (select ename from emp where empno=a.mgr) mgr, level-1 "level"
+  3  from emp a where lower(job)!='clerk'
+  4  start with mgr is null connect by prior empno=mgr;
+ENAME           MGR             level
+--------------- ---------- ----------
+KING                                0
+  JONES         KING                1
+    SCOTT       JONES               2
+    FORD        JONES               2
+  BLAKE         KING                1
+    ALLEN       BLAKE               2
+    WARD        BLAKE               2
+    MARTIN      BLAKE               2
+    TURNER      BLAKE               2
+  CLARK         KING                1
+
+10 rows selected.
+
+sqlplus>
+sqlplus>spool off

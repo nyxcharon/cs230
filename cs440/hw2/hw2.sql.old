@@ -1,0 +1,99 @@
+-- CS 440				Assignment 2			Due Wed  January 22, 2014
+
+-- The tables that you loaded from the scripts have no constraints.  We need to correct this oversight:
+@@utlsample.sql
+@@sup_part.sql
+
+
+-- 1.  Alter the dept table to have the following deferrable (initially immediate)      constraints:
+
+--     a.	  deptno is the primary key
+       		  alter table dept add constraint deptno_pk primary key(deptno) deferrable initially immediate;                   
+       
+--     a.	  dname is unique and not null
+       		  alter table dept modify dname constraint dname_un unique deferrable initially immediate
+		  	      	   	        constraint dname_nn not null deferrable initially immediate;
+
+-- 2.  Alter the emp table to have the following deferrable (initially immediate)	constraints:
+
+--     a.	  empno is the primary key
+       		  alter table emp add constraint empno_pk primary key(empno) deferrable initially immediate;
+
+--     b.	  ename is unique and not null
+       		  alter table emp modify ename constraint ename_un unique deferrable initially immediate
+		  	      	  	       constraint ename_nn not null deferrable initially immediate;
+
+--     c.	  mgr references the empno attribute in the table emp
+       		  alter table emp modify mgr constraint mgr_fk references emp(empno) deferrable initially immediate;       		  
+
+--     d.	  deptno references the deptno attribute in the table dept
+                  alter table emp modify deptno constraint deptno_fk references dept(deptno) deferrable initially immediate;
+
+--     e.	  the sal attribute value should lie in the interval 500 to 10000
+                  alter table emp modify sal constraint sal_chk check (sal between 500 and 10000) deferrable initially immediate;
+
+-- 3.  Alter the table s to have the following deferrable (initially immediate)	constraints:
+
+--     a.	  s# is the primary key
+      		  alter table s add constraint s_pk primary key(s#) deferrable initially immediate;
+
+--     b.	  sname is unique and not null
+       		  alter table s modify sname constraint sname_un unique deferrable initially immediate
+		  	      	       	     constraint sname_nn not null deferrable initially immediate;
+
+-- 4.  Alter the table p to have the following deferrable (initially immediate)	constraints:
+
+--     a.	  p# is the primary key
+       		  alter table p add constraint p_pk primary key(p#) deferrable initially immediate;
+
+--     b.	  pname is unique and not null
+       		  alter table p  modify pname constraint pname_un unique deferrable initially immediate
+		  	      	 	      constraint pname_nn not null deferrable initially immediate;
+
+-- 5.  Alter the table sp to have the following deferrable (initially immediate)	constraints:
+
+--     a.	  the pair s# and p# is the primary key
+       		  alter table sp add constraint sp_k primary key(s#,p#) deferrable initially immediate;
+
+--     b.	  qty is either null or non-negative
+       		  alter table sp modify qty constraint qty_c check (qty >= 0) deferrable initially immediate;
+
+--     c.	  s# references the s# attribute of the table s and p# references the p# attribute of the p table.
+       		  alter table sp modify s# constraint s#_fk references s(s#) deferrable initially immediate;
+		  alter table sp modify p# constraint p#_fk references p(p#) deferrable initially immediate;
+
+-- 6.  Create an index on the deptno attribute of emp
+       	      	  create index emp_deptno on emp(deptno);
+
+-- 7.  Two hiredate values in the emp table are incorrect;  they are listed as 2013	whereas the correct hiredate was 2012. Identify the difficulty and  correct it. You  might want to use the add_months function with the prototype:
+--     	add_months(date, #months)
+-- 	where the #months value can be either positive or negative.
+-- 	Commit your results.
+	       	   select add_months(hiredate, -12) from emp where hiredate > sysdate;
+
+-- 8.	List all indexes with table name and index name.
+   	     	   select index_name from user_indexes;
+
+-- 9.	List all constraints with table name and constraint name.
+   	           select constraint_name,table_name from user_constraints; 
+
+-- Create a script to execute this assignment. The format of the script should be:
+
+
+-- --     Your name
+-- --     CS 440
+-- --     Assignment 2
+-- --     January 22, 2014
+
+
+-- set echo on
+
+-- --  Problem 1a
+-- ……
+
+-- --	Problem 1b
+-- …. . .
+
+-- Run your script, spool your output and submit the spooled results.
+
+-- Hint:  start your script by dropping all constraints and indexes.

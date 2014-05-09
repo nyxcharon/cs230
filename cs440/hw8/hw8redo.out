@@ -1,0 +1,51 @@
+sqlplus>@hw8redo.sql
+sqlplus>/*
+sqlplus>Barry Martin
+sqlplus>Myid - bmartin4
+sqlplus>CS 440
+sqlplus>HW #8 second bite
+sqlplus>April 4th, 2014
+sqlplus>*/
+sqlplus>
+sqlplus>/* 1. */
+sqlplus>create or replace type studentLikeArray as VARRAY(20) of varchar2(20)
+  2  /
+
+Type created.
+
+sqlplus>create or replace function Likers (i_CRN in number)
+  2  return studentLikeArray is
+  3  	         v_larray studentLikeArray := studentLikeArray();
+  4  
+  5	     cursor v_crn is select name from WVU where
+  6  	          CRN in (select CRN2 from likes where i_CRN=CRN);
+  7  begin
+  8	     for person in v_crn loop
+  9  	     	  v_larray(v_larray.count+1):=person.name;
+ 10  		       end loop;
+ 11  
+ 12	     if v_larray.count > 0 then
+ 13  	     	return v_larray;
+ 14  		     else
+ 15			return null;
+ 16  			     end if;
+ 17  
+ 18  
+ 19  
+ 20  end Likers;
+ 21  /
+
+Function created.
+
+sqlplus>
+sqlplus>/* 3. */
+sqlplus>create or replace trigger student_likes_trigger
+  2  before insert ON WVU
+  3  for each row
+  4  begin
+  5	     insert into likes select :new.crn, crn from wvu where grade=:new.grade;
+  6  END student_likes_trigger;
+  7  /
+
+Trigger created.
+

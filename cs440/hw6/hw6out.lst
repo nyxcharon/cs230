@@ -1,0 +1,65 @@
+sqlplus>grant execute on Salary_Report to ramorehead;
+
+Grant succeeded.
+
+sqlplus>grant select on emp to ramorehead;
+
+Grant succeeded.
+
+sqlplus>grant select on dept to ramorehead;
+
+Grant succeeded.
+
+sqlplus>exec Salary_Report;
+                                                        Friday, February  28, 2014
+
+                                                                Regal Lager
+
+                                                   More than a Great Brew - a Palindrome
+
+
+
+                                                        Departmental Salary Report
+
+                                                          Department: Accounting
+                                                             CLARK  $2,450.00
+                                                              KING  $5,000.00
+                                                             MILLER  $1,300.00
+                                                   Total Accounting salary:   $8,750.00
+                                                  Average Accounting salary:   $2,916.67
+
+                                                           Department: Research
+                                                             SMITH    $800.00
+                                                             JONES  $2,975.00
+                                                             SCOTT  $3,000.00
+                                                             ADAMS  $1,100.00
+                                                              FORD  $3,000.00
+                                                    Total Research salary:  $10,875.00
+                                                   Average Research salary:   $2,175.00
+
+                                                             Department: Sales
+                                                             ALLEN  $1,600.00
+                                                              WARD  $1,250.00
+                                                             MARTIN  $1,250.00
+                                                             BLAKE  $2,850.00
+                                                             TURNER  $1,500.00
+                                                             JAMES    $950.00
+                                                      Total Sales salary:   $9,400.00
+                                                     Average Sales salary:   $1,566.67
+
+                                                          Department: Operations
+                                                         Total Operations salary:
+                                                        Average Operations salary:
+
+
+
+                                                             Company Salaries:
+                                                  Total Regal Lager Salaries:  $29,025.00
+                                                 Average Regal Lager Salaries:   $2,073.21
+
+                                                               End of Report
+
+PL/SQL procedure successfully completed.
+
+sqlplus>spool off
+

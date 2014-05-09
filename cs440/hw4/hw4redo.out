@@ -1,0 +1,49 @@
+sqlplus>@hw4redo.sql
+sqlplus>/*
+sqlplus>   Barry Martin
+sqlplus>   CS440
+sqlplus>   Assigment 4, second bite
+sqlplus>   February 17th, 2014
+sqlplus>*/
+sqlplus>
+sqlplus>/* 6. */
+sqlplus>with x as (select * from sp natural join p)
+  2  select sname, a.pname, b.pname, c.pname
+  3  from s
+  4  join x a on s.s#=a.s#
+  5  join x b on a.s#=b.s# and a.p# != b.p# and a.qty>b.qty
+  6  join x c on b.s#=c.s# and b.p# != c.p# and b.qty>c.qty
+  7  where c.qty >= all
+  8  (select qty from sp where s#=s.s# and p# not in (a.p#,b.p#));
+SNAME PNAME      PNAME      PNAME
+----- ---------- ---------- ----------
+smith wrench     ladder     pliers
+clark stapler    pliers     router
+
+sqlplus>
+sqlplus>/* 8. */
+sqlplus>select sname,pname,qty,
+  2  (select max(qty) from sp where s#=sp.s#) "Max Qty Supplied",
+  3  (select max(qty) from sp where s#=sp.s#)  "Max Qty for P#"
+  4  from s left join sp on s.s#=sp.s#
+  5  left join p on p.p#=sp.p#;
+SNAME PNAME             QTY Max Qty Supplied Max Qty for P#
+----- ---------- ---------- ---------------- --------------
+adams hammer            150              250            250
+smith hammer            100              250            250
+clark pliers            120              250            250
+jones pliers                             250            250
+smith pliers            200              250            250
+clark router            100              250            250
+smith router            150              250            250
+clark stapler           250              250            250
+jones stapler           100              250            250
+smith stapler           120              250            250
+jones wrench            120              250            250
+smith wrench            240              250            250
+smith ladder            210              250            250
+henry                                    250            250
+
+14 rows selected.
+
+sqlplus>spool off

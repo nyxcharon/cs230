@@ -1,0 +1,390 @@
+sqlplus>@hw5.sql
+sqlplus>/*
+sqlplus>
+sqlplus>   Barry Martin
+sqlplus>   CS 440
+sqlplus>   Assignment 5
+sqlplus>   February 21, 2014
+sqlplus>
+sqlplus>*/
+sqlplus>
+sqlplus>/* 1. */
+sqlplus>select name from mountaineer where id in (select id1 from friend where id2 in (select id from mountaineer where name='Gabriel'));
+NAME
+------------------------------
+Jordan
+Cassandra
+Andrew
+Alexis
+Jessica
+
+sqlplus>
+sqlplus>/* 2. */
+sqlplus>with x as
+  2  (select * from mountaineer natural join grade left join likes on mountaineer.id=likes.id1)
+  3  select name,grade, (select name  from x d where a.id2=d.id) "Person Liked", (select grade from x d where a.id2=d.id) "GR" from x a
+  4  where a.seq-(select seq from x b where a.id2=b.id) >= 2;
+NAME                           GR Person Liked                   GR
+------------------------------ -- ------------------------------ --
+John                           SR Haley                          SO
+
+sqlplus>
+sqlplus>/* 3. */
+sqlplus>select name,grade from mountaineer where id in (select id1 from likes where id1 in (select id2 from likes)  and id in (select id2 from likes where id2 in (select id1 from likes)));
+NAME                           GR
+------------------------------ --
+Gabriel                        FR
+Cassandra                      FR
+Alexis                         JR
+Jessica                        JR
+Kyle                           SR
+
+sqlplus>
+sqlplus>/* 4. */
+sqlplus>select	name "Person A",grade "GR A",
+  2  (select name from mountaineer where id=a.id2) "Person B",
+  3  (select grade from mountaineer where id=a.id2) "GR B",
+  4  (select name from mountaineer where id=b.id2) "Person C",
+  5  (select grade from mountaineer where id=b.id2) "GR C"
+  6  from likes a join likes b on a.id2=b.id1 join mountaineer on a.id1=mountaineer.id
+  7  where a.id1!=b.id2;
+Person A                       GR Person B                       GR Person C                       GR
+------------------------------ -- ------------------------------ -- ------------------------------ --
+Andrew                         SO Cassandra                      FR Gabriel                        FR
+Gabriel                        JR Alexis                         JR Kris                           SO
+
+sqlplus>
+sqlplus>/* 5. */
+sqlplus>select name,grade from mountaineer where id not in (select id1 from likes) and id not in (select id2 from likes) order by grade,name;
+NAME                           GR
+------------------------------ --
+Jordan                         FR
+Tiffany                        FR
+Logan                          SR
+
+sqlplus>
+sqlplus>/* 6. */
+sqlplus>select name,grade from mountaineer where id not in (select id1 from likes where id1 not in (select id2 from likes));
+NAME                           GR
+------------------------------ --
+Jordan                         FR
+Gabriel                        FR
+Tiffany                        FR
+Cassandra                      FR
+Haley                          SO
+Kris                           SO
+Alexis                         JR
+Jessica                        JR
+Jordan                         SR
+Kyle                           SR
+Logan                          SR
+
+11 rows selected.
+
+sqlplus>
+sqlplus>/* 7. */
+sqlplus>with x as
+  2  (select * from friend right join mountaineer on friend.id1=mountaineer.id natural join grade)
+  3  select * from x a
+  4  where a.grade = all (select grade from x b where a.id2=b.id)
+  5  order by grade,name;
+GR        ID1        ID2         ID NAME                                  SEQ
+-- ---------- ---------- ---------- ------------------------------ ----------
+FR       1709       1689       1709 Cassandra                               1
+FR       1689       1510       1689 Gabriel                                 1
+FR       1689       1709       1689 Gabriel                                 1
+FR       1510       1381       1510 Jordan                                  1
+FR       1510       1689       1510 Jordan                                  1
+FR       1381       1510       1381 Tiffany                                 1
+JR       1247       1911       1247 Alexis                                  3
+JR       1247       1501       1247 Alexis                                  3
+JR       1911       1247       1911 Gabriel                                 3
+JR       1911       1501       1911 Gabriel                                 3
+JR       1501       1911       1501 Jessica                                 3
+JR       1501       1247       1501 Jessica                                 3
+SO       1782       1468       1782 Andrew                                  2
+SO       1641       1468       1641 Brittany                                2
+SO       1641       1101       1641 Brittany                                2
+SO       1101       1641       1101 Haley                                   2
+SO       1101       1468       1101 Haley                                   2
+SO       1468       1101       1468 Kris                                    2
+SO       1468       1641       1468 Kris                                    2
+SO       1468       1782       1468 Kris                                    2
+SR       1025       1661       1025 John                                    4
+SR       1304       1934       1304 Jordan                                  4
+SR       1304       1661       1304 Jordan                                  4
+SR       1934       1304       1934 Kyle                                    4
+SR       1661       1304       1661 Logan                                   4
+SR       1661       1025       1661 Logan                                   4
+
+26 rows selected.
+
+sqlplus>
+sqlplus>/* 8. */
+sqlplus>with x as
+  2  (select * from friend right join mountaineer on friend.id1=mountaineer.id natural join grade)
+  3  select * from x a
+  4  where a.grade != all (select grade from x b where a.id2=b.id)
+  5  order by grade,name;
+GR        ID1        ID2         ID NAME                                  SEQ
+-- ---------- ---------- ---------- ------------------------------ ----------
+FR       1709       1247       1709 Cassandra                               1
+FR       1689       1782       1689 Gabriel                                 1
+FR       1381       1247       1381 Tiffany                                 1
+JR       1247       1709       1247 Alexis                                  3
+JR       1247       1381       1247 Alexis                                  3
+JR       1316       1934       1316 Austin                                  3
+JR       1316       1782       1316 Austin                                  3
+JR       1501       1934       1501 Jessica                                 3
+SO       1782       1304       1782 Andrew                                  2
+SO       1782       1316       1782 Andrew                                  2
+SO       1782       1689       1782 Andrew                                  2
+SR       1304       1782       1304 Jordan                                  4
+SR       1934       1501       1934 Kyle                                    4
+SR       1934       1316       1934 Kyle                                    4
+
+14 rows selected.
+
+sqlplus>
+sqlplus>
+sqlplus>/* 9. */
+sqlplus>select distinct(select name from mountaineer where id=a.id1) A,
+  2  (select grade from mountaineer where id=a.id1) "GR A",
+  3  (select name from mountaineer where id=a.id2) B,
+  4  (select grade from mountaineer where id=a.id2) "GR B",
+  5  (select name from mountaineer where id=c.id2) "C",
+  6  (select grade from mountaineer where id=c.id2) "GR C"
+  7  from likes a join friend b on a.id1=b.id1 join friend c on a.id1=c.id1
+  8  where a.id1 in (select id2 from friend) and a.id2 in (select id2 from friend) and a.id1!=b.id2 and a.id2!=b.id2 and a.id2!=c.id2;
+A                              GR B                              GR C                              GR
+------------------------------ -- ------------------------------ -- ------------------------------ --
+Gabriel                        FR Cassandra                      FR Andrew                         SO
+Austin                         JR Jordan                         SR Andrew                         SO
+Austin                         JR Jordan                         SR Kyle                           SR
+Alexis                         JR Kris                           SO Gabriel                        JR
+Andrew                         SO Cassandra                      FR Gabriel                        FR
+Alexis                         JR Kris                           SO Cassandra                      FR
+Jessica                        JR Kyle                           SR Gabriel                        JR
+Gabriel                        FR Cassandra                      FR Jordan                         FR
+Andrew                         SO Cassandra                      FR Austin                         JR
+Andrew                         SO Cassandra                      FR Kris                           SO
+Andrew                         SO Cassandra                      FR Jordan                         SR
+Gabriel                        JR Alexis                         JR Jessica                        JR
+Brittany                       SO Kris                           SO Haley                          SO
+John                           SR Haley                          SO Logan                          SR
+Cassandra                      FR Gabriel                        FR Alexis                         JR
+Kyle                           SR Jessica                        JR Austin                         JR
+Kyle                           SR Jessica                        JR Jordan                         SR
+Jessica                        JR Kyle                           SR Alexis                         JR
+Alexis                         JR Kris                           SO Tiffany                        FR
+Alexis                         JR Kris                           SO Jessica                        JR
+
+20 rows selected.
+
+sqlplus>
+sqlplus>/* 10. */
+sqlplus>select count(name)-count(distinct name) "Number of Duplicates" from mountaineer;
+Number of Duplicates
+--------------------
+                   2
+
+
+
+sqlplus>
+sqlplus>/* 11. */
+sqlplus>select avg(count(id1)) "Average Number of Friends" from friend group by id1;
+Average Number of Friends
+-------------------------
+                      2.5
+
+sqlplus>
+sqlplus>/* 12. */
+sqlplus>select
+  2  (select count(id1) from friend where id2=(select id from mountaineer where name='Cassandra'))
+  3  +
+  4  (select count(distinct id2) from friend where id1 in  (select id2 from friend where id1=(select id  from mountaineer where name='Cassandra'))
+  5  and id2 not in(select id from mountaineer where name='Cassandra'))
+  6  as "Total Number of Friends"
+  7  from dual;
+Total Number of Friends
+-----------------------
+                      7
+
+sqlplus>
+sqlplus>
+sqlplus>/* 13. */
+sqlplus>select name,grade from mountaineer where id in (select id2 from likes group by id2 having count(*) >=2);
+NAME                           GR
+------------------------------ --
+Cassandra                      FR
+Kris                           SO
+
+sqlplus>
+sqlplus>
+sqlplus>/* 14. */
+sqlplus>select name,grade from mountaineer where id in (select id2 from friend group by id2 having count(*) = (select max(count(id2)) from friend group by id2));
+NAME                           GR
+------------------------------ --
+Andrew                         SO
+Alexis                         JR
+
+sqlplus>
+sqlplus>
+sqlplus>/* 15. */
+sqlplus>update mountaineer set Grade=
+  2  	 case upper(Grade)
+  3  	 when 'FR' then 'SO'
+  4  	 when 'SO' then 'JR'
+  5  	 when 'JR' then 'SR'
+  6  	else 'GR' end;
+
+16 rows updated.
+
+sqlplus>select * from mountaineer;
+        ID NAME                           GR
+---------- ------------------------------ --
+      1510 Jordan                         SO
+      1689 Gabriel                        SO
+      1381 Tiffany                        SO
+      1709 Cassandra                      SO
+      1101 Haley                          JR
+      1782 Andrew                         JR
+      1468 Kris                           JR
+      1641 Brittany                       JR
+      1247 Alexis                         SR
+      1316 Austin                         SR
+      1911 Gabriel                        SR
+      1501 Jessica                        SR
+      1304 Jordan                         GR
+      1025 John                           GR
+      1934 Kyle                           GR
+      1661 Logan                          GR
+
+16 rows selected.
+
+sqlplus>
+sqlplus>
+sqlplus>/* 16. */
+sqlplus>delete from mountaineer where grade='GR';
+
+4 rows deleted.
+
+sqlplus>select * from mountaineer;
+        ID NAME                           GR
+---------- ------------------------------ --
+      1510 Jordan                         SO
+      1689 Gabriel                        SO
+      1381 Tiffany                        SO
+      1709 Cassandra                      SO
+      1101 Haley                          JR
+      1782 Andrew                         JR
+      1468 Kris                           JR
+      1641 Brittany                       JR
+      1247 Alexis                         SR
+      1316 Austin                         SR
+      1911 Gabriel                        SR
+      1501 Jessica                        SR
+
+12 rows selected.
+
+sqlplus>
+sqlplus>/* 17. */
+sqlplus>delete from friend where id1 not in (select id	from mountaineer) or id2 not in (select id from mountaineer);
+
+12 rows deleted.
+
+sqlplus>delete from likes where id1 not in (select id  from mountaineer)  or id2 not in (select id from mountaineer);
+
+4 rows deleted.
+
+sqlplus>select (select count(*) from friend) + (select count(*) from likes) as "Total Rows" from dual;
+Total Rows
+----------
+        34
+
+sqlplus>
+sqlplus>/* 18. */
+sqlplus>insert into friend select distinct a.id1,b.id2 from friend a join friend b on a.id2=b.id1
+  2  where a.id2=b.id1 and a.id1!=b.id2;
+
+44 rows created.
+
+sqlplus>select * from friend;
+       ID1        ID2
+---------- ----------
+      1510       1381
+      1510       1689
+      1689       1709
+      1381       1247
+      1709       1247
+      1689       1782
+      1782       1468
+      1782       1316
+      1468       1101
+      1468       1641
+      1101       1641
+      1247       1911
+      1247       1501
+      1911       1501
+      1381       1510
+      1689       1510
+      1709       1689
+      1247       1381
+      1247       1709
+      1782       1689
+      1468       1782
+      1316       1782
+      1101       1468
+      1641       1468
+      1641       1101
+      1911       1247
+      1501       1247
+      1501       1911
+      1381       1689
+      1316       1468
+      1782       1101
+      1247       1510
+      1709       1381
+      1468       1101
+      1247       1501
+      1247       1689
+      1641       1782
+      1247       1911
+      1641       1101
+      1381       1911
+      1641       1468
+      1510       1247
+      1468       1641
+      1501       1709
+      1911       1247
+      1782       1709
+      1510       1709
+      1689       1316
+      1709       1911
+      1911       1709
+      1101       1782
+      1510       1782
+      1468       1316
+      1782       1641
+      1911       1501
+      1709       1501
+      1709       1510
+      1381       1709
+      1468       1689
+      1501       1247
+      1689       1247
+      1689       1468
+      1101       1641
+      1501       1911
+      1381       1501
+      1782       1510
+      1501       1381
+      1911       1381
+      1101       1468
+      1689       1381
+      1709       1782
+      1316       1689
+
+72 rows selected.
+
+sqlplus>spool off

@@ -1,0 +1,16 @@
+Barry Martin
+CS 310 Lab 12
+
+The interpreter cannot handle:
+
+1.(G) :add statements
+2.(G) :OnExit statements
+3.(P) :if statements
+4.(G) :OnEntry statements
+5.(G) embeded lisp such as 
+	> (checkpoint) Return
+6.(E) new keywords ie. say, have, etc.
+
+
+
+

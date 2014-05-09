@@ -1,0 +1,306 @@
+sqlplus>@hw2.sql
+sqlplus>-- Barry Martin
+sqlplus>-- CS 440
+sqlplus>-- Assignment 2
+sqlplus>-- Januart 22,2014
+sqlplus>
+sqlplus>set echo on
+sqlplus>-- Create tables
+sqlplus>@@utlsample.sql
+SP2-0310: unable to open file "utlsample.sql"
+sqlplus>@@sup_part.sql
+sqlplus>--	Script to populate the Supplier Parts database
+sqlplus>
+sqlplus>
+sqlplus>drop table sp;
+
+Table dropped.
+
+sqlplus>drop table p;
+
+Table dropped.
+
+sqlplus>drop table s;
+
+Table dropped.
+
+sqlplus>
+sqlplus>create table s (s# char(2), sname char(5), status number,
+  2  	     city char(10));
+
+Table created.
+
+sqlplus>
+sqlplus>create table p (p# char(2), pname char(10), color char(5),
+  2  weight number(7,2), city char(10));
+
+Table created.
+
+sqlplus>
+sqlplus>
+sqlplus>create table sp (s# char(2), p# char(2), qty number);
+
+Table created.
+
+sqlplus>
+sqlplus>	insert into s(s#, sname, status, city) values('s1',  'smith', 10, 'Paris');
+
+1 row created.
+
+sqlplus>	insert into s(s#, sname, status, city)	values('s2',  'jones', 20, 'Bonn');
+
+1 row created.
+
+sqlplus>	insert into s(s#, sname, status, city)	values('s3',  'adams', 30, 'London');
+
+1 row created.
+
+sqlplus>	insert into s(s#, sname, status, city)	values('s4',  'clark', 40, 'Rome');
+
+1 row created.
+
+sqlplus>	insert into s(s#, sname, status, city)	values('s5',  'henry', 50, 'Dublin');
+
+1 row created.
+
+sqlplus>
+sqlplus>	insert into p values('p1',  'hammer',  'red',	2.6,  'Paris');
+
+1 row created.
+
+sqlplus>	insert into p values('p2',  'pliers',  'green', 3.1,  'London');
+
+1 row created.
+
+sqlplus>	insert into p values('p3',  'router',  'blue',	5.6,  'Paris');
+
+1 row created.
+
+sqlplus>	insert into p values('p4',  'stapler', 'red',	3.7,  'Bonn');
+
+1 row created.
+
+sqlplus>	insert into p values('p5',  'wrench',  'green', 2.6,  'Rome');
+
+1 row created.
+
+sqlplus>	insert into p values('p6',  'ladder',  'blue',	10.5, 'Paris');
+
+1 row created.
+
+sqlplus>
+sqlplus>	insert into sp values('s1', 'p1', 100);
+
+1 row created.
+
+sqlplus>	insert into sp values('s1', 'p2', 200);
+
+1 row created.
+
+sqlplus>	insert into sp values('s1', 'p3', 150);
+
+1 row created.
+
+sqlplus>	insert into sp values('s1', 'p4', 120);
+
+1 row created.
+
+sqlplus>	insert into sp values('s1', 'p5', 240);
+
+1 row created.
+
+sqlplus>	insert into sp values('s1', 'p6', 210);
+
+1 row created.
+
+sqlplus>
+sqlplus>	insert into sp values('s2', 'p2', null);
+
+1 row created.
+
+sqlplus>	insert into sp values('s2', 'p4', 100);
+
+1 row created.
+
+sqlplus>	insert into sp values('s2', 'p5', 120);
+
+1 row created.
+
+sqlplus>
+sqlplus>	insert into sp values('s3', 'p1', 150);
+
+1 row created.
+
+sqlplus>
+sqlplus>	insert into sp values('s4', 'p2', 120);
+
+1 row created.
+
+sqlplus>	insert into sp values('s4', 'p3', 100);
+
+1 row created.
+
+sqlplus>	insert into sp values('s4', 'p4', 250);
+
+1 row created.
+
+sqlplus>
+sqlplus>commit;
+
+Commit complete.
+
+sqlplus>
+sqlplus>(END)
+  2  
+sqlplus>
+sqlplus>
+sqlplus>
+sqlplus>--1a
+sqlplus>alter table dept add constraint deptno_pk primary key(deptno) deferrable initially immediate;
+
+Table altered.
+
+sqlplus>
+sqlplus>--1b
+sqlplus>alter table dept modify dname constraint dname_un unique deferrable initially immediate
+  2  				   constraint dname_nn not null deferrable initially immediate;
+
+Table altered.
+
+sqlplus>
+sqlplus>--2a
+sqlplus>alter table emp add constraint empno_pk primary key(empno) deferrable initially immediate;
+
+Table altered.
+
+sqlplus>
+sqlplus>--2b
+sqlplus>alter table emp modify ename constraint ename_un unique deferrable initially immediate
+  2  				  constraint ename_nn not null deferrable initially immediate;
+
+Table altered.
+
+sqlplus>
+sqlplus>--2c
+sqlplus>alter table emp modify mgr constraint mgr_fk references emp(empno) deferrable initially immediate;
+
+Table altered.
+
+sqlplus>
+sqlplus>--2d
+sqlplus>alter table emp modify deptno constraint deptno_fk references dept(deptno) deferrable initially immediate;
+
+Table altered.
+
+sqlplus>
+sqlplus>--2e
+sqlplus>alter table emp modify sal constraint sal_chkbal check (sal between 500 and 10000) deferrable initially immediate;
+
+Table altered.
+
+sqlplus>
+sqlplus>--3a
+sqlplus>alter table s add constraint s_pk primary key(s#) deferrable initially immediate;
+
+Table altered.
+
+sqlplus>
+sqlplus>--3b
+sqlplus>alter table s modify sname constraint sname_un unique deferrable initially immediate
+  2  				constraint sname_nn not null deferrable initially immediate;
+
+Table altered.
+
+sqlplus>
+sqlplus>--4a
+sqlplus>alter table p add constraint p_pk primary key(p#) deferrable initially immediate;
+
+Table altered.
+
+sqlplus>
+sqlplus>--4b
+sqlplus>alter table p  modify pname constraint pname_un unique deferrable initially immediate
+  2  				 constraint pname_nn not null deferrable initially immediate;
+
+Table altered.
+
+sqlplus>
+sqlplus>--5a
+sqlplus>alter table sp add constraint sp_k primary key(s#,p#) deferrable initially immediate;
+
+Table altered.
+
+sqlplus>
+sqlplus>--5b
+sqlplus>alter table sp modify qty constraint qty_c check (qty >= 0) deferrable initially immediate;
+
+Table altered.
+
+sqlplus>
+sqlplus>--5c
+sqlplus>alter table sp modify s# constraint s#_fk references s(s#) deferrable initially immediate;
+
+Table altered.
+
+sqlplus>alter table sp modify p# constraint p#_fk references p(p#) deferrable initially immediate;
+
+Table altered.
+
+sqlplus>
+sqlplus>--6
+sqlplus>create index emp_deptnoindex on emp(deptno);
+
+Index created.
+
+sqlplus>
+sqlplus>--7
+sqlplus>select add_months(hiredate, -12) from emp where hiredate > sysdate;
+
+no rows selected
+
+sqlplus>
+sqlplus>--8
+sqlplus>select index_name from user_indexes;
+INDEX_NAME
+------------------------------
+EMP_DEPTNOINDEX
+SP_K
+PNAME_UN
+P_PK
+SNAME_UN
+S_PK
+ENAME_UN
+EMPNO_PK
+DNAME_UN
+DEPTNO_PK
+
+10 rows selected.
+
+sqlplus>
+sqlplus>--9
+sqlplus>select constraint_name,table_name from user_constraints;
+CONSTRAINT_NAME                TABLE_NAME
+------------------------------ ------------------------------
+DEPTNO_FK                      EMP
+MGR_FK                         EMP
+S#_FK                          SP
+P#_FK                          SP
+SP_K                           SP
+PNAME_UN                       P
+P_PK                           P
+SNAME_UN                       S
+S_PK                           S
+ENAME_UN                       EMP
+EMPNO_PK                       EMP
+DNAME_UN                       DEPT
+DEPTNO_PK                      DEPT
+DNAME_NN                       DEPT
+ENAME_NN                       EMP
+SAL_CHKBAL                     EMP
+SNAME_NN                       S
+PNAME_NN                       P
+QTY_C                          SP
+
+19 rows selected.
+
+sqlplus>spool out

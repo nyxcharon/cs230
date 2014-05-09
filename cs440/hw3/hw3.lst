@@ -1,0 +1,191 @@
+sqlplus>@hw3.sql
+sqlplus>/*
+sqlplus>Barry Martin
+sqlplus>CS 440
+sqlplus>Assignment 3
+sqlplus>January 31,2014
+sqlplus>*/
+sqlplus>
+sqlplus>
+sqlplus>
+sqlplus>/*1.*/
+sqlplus>update emp
+  2  set MGR = (select MGR from emp where ENAME='TURNER')
+  3  where ename='SCOTT';
+
+1 row updated.
+
+sqlplus>select * from emp;
+     EMPNO ENAME      JOB              MGR HIREDATE         SAL       COMM     DEPTNO
+---------- ---------- --------- ---------- --------- ---------- ---------- ----------
+      7369 SMITH      CLERK           7902 17-DEC-08        800                    20
+      7499 ALLEN      SALESMAN        7698 20-FEB-09       1600        300         30
+      7521 WARD       SALESMAN        7698 22-FEB-09       1250        500         30
+      7566 JONES      MANAGER         7839 02-APR-09       2975                    20
+      7654 MARTIN     SALESMAN        7698 28-SEP-09       1250       1400         30
+      7698 BLAKE      MANAGER         7839 01-MAY-09       2850                    30
+      7782 CLARK      MANAGER         7839 09-JUN-09       2450                    10
+      7788 SCOTT      ANALYST         7698 13-JUL-13       3000                    20
+      7839 KING       PRESIDENT            17-NOV-09       5000                    10
+      7844 TURNER     SALESMAN        7698 08-SEP-09       1500          0         30
+      7876 ADAMS      CLERK           7788 13-JUL-13       1100                    20
+      7900 JAMES      CLERK           7698 03-DEC-09        950                    30
+      7902 FORD       ANALYST         7566 03-DEC-09       3000                    20
+      7934 MILLER     CLERK           7782 23-JAN-10       1300                    10
+
+14 rows selected.
+
+sqlplus>rollback;
+
+Rollback complete.
+
+sqlplus>
+sqlplus>/*2.*/
+sqlplus>insert into dept ( DEPTNO,DNAME,LOC) values (50,'PR','MORGANTOWN');
+
+1 row created.
+
+sqlplus>update emp
+  2  set DEPTNO = (select DEPTNO from dept where DNAME='PR')
+  3  where  DEPTNO = (select DEPTNO from dept where DNAME='RESEARCH');
+
+5 rows updated.
+
+sqlplus>select * from emp;
+     EMPNO ENAME      JOB              MGR HIREDATE         SAL       COMM     DEPTNO
+---------- ---------- --------- ---------- --------- ---------- ---------- ----------
+      7369 SMITH      CLERK           7902 17-DEC-08        800                    50
+      7499 ALLEN      SALESMAN        7698 20-FEB-09       1600        300         30
+      7521 WARD       SALESMAN        7698 22-FEB-09       1250        500         30
+      7566 JONES      MANAGER         7839 02-APR-09       2975                    50
+      7654 MARTIN     SALESMAN        7698 28-SEP-09       1250       1400         30
+      7698 BLAKE      MANAGER         7839 01-MAY-09       2850                    30
+      7782 CLARK      MANAGER         7839 09-JUN-09       2450                    10
+      7788 SCOTT      ANALYST         7566 13-JUL-13       3000                    50
+      7839 KING       PRESIDENT            17-NOV-09       5000                    10
+      7844 TURNER     SALESMAN        7698 08-SEP-09       1500          0         30
+      7876 ADAMS      CLERK           7788 13-JUL-13       1100                    50
+      7900 JAMES      CLERK           7698 03-DEC-09        950                    30
+      7902 FORD       ANALYST         7566 03-DEC-09       3000                    50
+      7934 MILLER     CLERK           7782 23-JAN-10       1300                    10
+
+14 rows selected.
+
+sqlplus>rollback;
+
+Rollback complete.
+
+sqlplus>
+sqlplus>/*3.*/
+sqlplus>select ENAME from emp
+  2  where MGR not in (select MGR from emp where ENAME='MARTIN') or MGR is null;
+ENAME
+----------
+SMITH
+JONES
+BLAKE
+CLARK
+SCOTT
+KING
+ADAMS
+FORD
+MILLER
+
+9 rows selected.
+
+sqlplus>
+sqlplus>/*4.*/
+sqlplus>break on sname;
+sqlplus>SELECT sname, pname from s
+  2  LEFT JOIN sp using (s#)
+  3  LEFT JOIN p using (p#)
+  4  ORDER BY sname, pname;
+SNAME PNAME
+----- ----------
+adams hammer
+clark pliers
+      router
+      stapler
+henry
+jones pliers
+      stapler
+      wrench
+smith hammer
+      ladder
+      pliers
+      router
+      stapler
+      wrench
+
+14 rows selected.
+
+sqlplus>clear breaks;
+sqlplus>
+sqlplus>/*5.*/
+sqlplus>select distinct pname from
+  2  sp natural join p
+  3  where pname != 'stapler' and
+  4  s# in (select s# from sp natural join p where pname='stapler');
+PNAME
+----------
+router
+ladder
+hammer
+pliers
+wrench
+
+sqlplus>
+sqlplus>/*6.*/
+sqlplus>select pname from p
+  2  where p# not in (select distinct p# from s natural join sp where city='Bonn');
+PNAME
+----------
+router
+hammer
+ladder
+
+sqlplus>
+sqlplus>/*7.*/
+sqlplus>SELECT sname FROM s
+  2  WHERE 3 <= (select count(distinct city)
+  3  from sp natural join p where s# = s.s#);
+SNAME
+-----
+smith
+jones
+clark
+
+sqlplus>
+sqlplus>/*8.*/
+sqlplus>SELECT dname, avg(sal) from dept
+  2  LEFT JOIN emp using (deptno) group by (dname);
+DNAME            AVG(SAL)
+-------------- ----------
+RESEARCH             2175
+SALES          1566.66667
+OPERATIONS
+ACCOUNTING     2916.66667
+
+sqlplus>
+sqlplus>/*9.*/
+sqlplus>select dname from dept
+  2  where deptno not in (select deptno from emp);
+DNAME
+--------------
+OPERATIONS
+
+sqlplus>
+sqlplus>/*10.*/
+sqlplus>select dname,ename,sal
+  2  from emp join dept using (deptno)
+  3  where sal in (select max(sal) from emp join dept using (deptno) group by dname);
+DNAME          ENAME             SAL
+-------------- ---------- ----------
+RESEARCH       FORD             3000
+RESEARCH       SCOTT            3000
+SALES          BLAKE            2850
+ACCOUNTING     KING             5000
+
+sqlplus>
+sqlplus>
+sqlplus>spool off

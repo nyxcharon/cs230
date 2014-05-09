@@ -1,0 +1,211 @@
+sqlplus>@hw8.sql
+sqlplus>/*
+sqlplus>Barry Martin
+sqlplus>Myid - bmartin4
+sqlplus>CS 440
+sqlplus>HW #8
+sqlplus>
+sqlplus>*/
+sqlplus>
+sqlplus>/* 1. */
+sqlplus>create or replace type studentLikeArray as VARRAY(20) of varchar2(20)
+  2  /
+
+Type created.
+
+sqlplus>create or replace function Likers (i_CRN in number)
+  2  return studentLikeArray is
+  3  	         v_larray studentLikeArray := studentLikeArray();
+  4  
+  5	     cursor v_crn is select name from WVU where
+  6  	          CRN in (select CRN2 from likes where i_CRN=CRN);
+  7  begin
+  8	     for person in v_crn loop
+  9  	     	  v_larray(v_larray.count+1):=person.name;
+ 10  		       end loop;
+ 11  
+ 12	     return v_larray;
+ 13  end Likers;
+ 14  /
+
+Function created.
+
+sqlplus>
+sqlplus>
+sqlplus>/* 2. */
+sqlplus>create or replace procedure Heremitify (CRN in number)
+  2  is
+  3  
+  4  begin
+  5	     delete from likes where  crn1=CRN or crn2=CRN;
+  6  	          delete from friend where  crn1=CRN or crn2=CRN;
+  7  end Heremitify;
+  8  /
+
+Procedure created.
+
+sqlplus>
+sqlplus>
+sqlplus>/* 3. */
+sqlplus>create or replace trigger student_likes_trigger
+  2  for insert ON WVU
+  3  compound trigger
+  4  
+  5    type stu_ty is table of	wvu%rowtype index by binary_integer;
+  6    stu_tab stu_ty;
+  7  
+  8    AFTER EACH ROW IS
+  9    BEGIN
+ 10     stu_tab(stu_tab.count+1).crn := :new.crn;
+ 11    END AFTER EACH ROW;
+ 12  
+ 13    AFTER STATEMENT IS
+ 14    BEGIN
+ 15         for cntr in 1..stu_tab.count loop
+ 16  	    	 for c1_rec in (select * from wvu where grade=(select grade from wvu where crn=stu_tab(cntr).crn) and crn!=stu_tab(cntr).crn) loop
+ 17  		          insert into likes (crn1,crn2)  values (stu_tab(cntr).crn, c1_rec.crn);
+ 18  			  	  end loop;
+ 19  				       end loop;
+ 20    END AFTER STATEMENT;
+ 21  
+ 22  END student_likes_trigger;
+ 23  /
+
+Trigger created.
+
+sqlplus>
+sqlplus>/* 4. */
+sqlplus>create or replace trigger new_stud_gr_trigger
+  2  before insert on WVU
+  3  for each row
+  4  begin
+  5	     if :new.grade is NULL then
+  6  	     	:new.grade := 'FR';
+  7  			   end if;
+  8  end;
+  9  /
+
+Trigger created.
+
+sqlplus>
+sqlplus>/* 5. */
+sqlplus>create or replace trigger new_stud_fr_trigger
+  2  for insert on friend
+  3  compound trigger
+  4  
+  5  type stu_ty is table of  friend%rowtype index by binary_integer;
+  6    stu_tab stu_ty;
+  7  
+  8    AFTER EACH ROW IS
+  9    BEGIN
+ 10     stu_tab(stu_tab.count+1).crn1 := :new.crn1;
+ 11  	 stu_tab(stu_tab.count).crn2 := :new.crn2;
+ 12    END AFTER EACH ROW;
+ 13  
+ 14    AFTER STATEMENT IS
+ 15    BEGIN
+ 16         for cntr in 1..stu_tab.count loop
+ 17  	    	 if stu_tab(cntr).crn2!=NULL and stu_tab(cntr).crn1 != NULL then
+ 18  		        insert into friend (crn1,crn2) values (stu_tab(cntr).crn2,stu_tab(cntr).crn1);
+ 19  			        end if;
+ 20  				     end loop;
+ 21    END AFTER STATEMENT;
+ 22  
+ 23  end;
+ 24  /
+
+Trigger created.
+
+sqlplus>
+sqlplus>/* 6. */
+sqlplus>create or replace trigger student_grade_trigger
+  2  for update ON WVU
+  3  compound trigger
+  4  
+  5    type stu_ty is table of	wvu%rowtype index by binary_integer;
+  6    stu_tab stu_ty;
+  7    old_stu_tab stu_ty;
+  8  
+  9    AFTER EACH ROW IS
+ 10    BEGIN
+ 11     stu_tab(stu_tab.count+1).grade := :new.grade;
+ 12  	 stu_tab(stu_tab.count).crn := :new.crn;
+ 13  	  old_stu_tab(old_stu_tab.count).grade := :old.grade;
+ 14    END AFTER EACH ROW;
+ 15  
+ 16    AFTER STATEMENT IS
+ 17    BEGIN
+ 18     for cntr in 1..stu_tab.count loop
+ 19  	     update wvu set grade=stu_tab(cntr).grade where grade=old_stu_tab(cntr).grade;
+ 20  	      end loop;
+ 21    END AFTER STATEMENT;
+ 22  
+ 23  END student_grade_trigger;
+ 24  /
+
+Trigger created.
+
+sqlplus>
+sqlplus>
+sqlplus>/* 7. */
+sqlplus>create or replace trigger student_graduate_trigger
+  2  for update  of GRADE ON WVU
+  3  compound trigger
+  4  
+  5    type stu_ty is table of	wvu%rowtype index by binary_integer;
+  6    stu_tab stu_ty;
+  7  
+  8    AFTER EACH ROW IS
+  9    BEGIN
+ 10     stu_tab(stu_tab.count+1).crn := :new.crn;
+ 11    END AFTER EACH ROW;
+ 12  
+ 13  
+ 14    AFTER STATEMENT IS
+ 15    BEGIN
+ 16         for cntr in 1..stu_tab.count loop
+ 17  	    	 Heremitify(stu_tab(cntr).crn);
+ 18  		      end loop;
+ 19  
+ 20	     delete from wvu where grade='GR';
+ 21    END AFTER STATEMENT;
+ 22  
+ 23  END student_graduate_trigger;
+ 24  /
+
+Trigger created.
+
+sqlplus>
+sqlplus>
+sqlplus>
+sqlplus>/* 8. */
+sqlplus>create or replace trigger student_friend_trigger
+  2  before update of CRN2 on Likes
+  3  for each row
+  4  begin
+  5	      delete Friend where CRN1=:old.CRN2 and CRN2=:new.CRN2 or CRN1=:new.CRN2 and CRN2=:old.CRN2;
+  6  end;
+  7  /
+
+Trigger created.
+
+sqlplus>grant select,insert,delete on wvu to ramorehead; 
+
+Grant succeeded.
+
+sqlplus>grant select,insert,delete on friend to ramorehead;
+
+Grant succeeded.
+
+sqlplus>grant select,insert,delete on likes to ramorehead;
+
+Grant succeeded.
+
+sqlplus>grant execute on Likers to ramorehead; 
+
+Grant succeeded.
+
+sqlplus>grant execute on Heremitify to ramorehead;
+
+Grant succeeded.
+

@@ -1,0 +1,151 @@
+sqlplus>@hw5redo.sql
+sqlplus>/*
+sqlplus>Barry Martin
+sqlplus>CS 440 HW5 Second Bite
+sqlplus>Feb 26th, 2014
+sqlplus>*/
+sqlplus>
+sqlplus>
+sqlplus>/* 3. */
+sqlplus>select a.name,a.grade,b.name,b.grade
+  2  from mountaineer a
+  3  join likes on a.id=id1
+  4  join mountaineer b on b.id=id2
+  5  where (b.id,a.id) in
+  6  (select * from likes)
+  7  and a.id<b.id;
+NAME                           GR NAME                           GR
+------------------------------ -- ------------------------------ --
+Gabriel                        SO Cassandra                      SO
+
+sqlplus>
+sqlplus>/* 6. */
+sqlplus>select a.name,a.grade,b.name,b.grade
+  2  from mountaineer a
+  3  join likes on a.id=id1
+  4  join mountaineer b on id2=b.id
+  5  where b.id not in (select id1 from likes);
+NAME                           GR NAME                           GR
+------------------------------ -- ------------------------------ --
+Brittany                       JR Kris                           JR
+Alexis                         SR Kris                           JR
+
+sqlplus>
+sqlplus>/* 7. */
+sqlplus>select name,grade
+  2  from mountaineer m
+  3  where not exists
+  4  (select 1 from friend where id1=m.id and id2 in (select id from mountaineer where grade=m.grade))
+  5  order by grade,name;
+NAME                           GR
+------------------------------ --
+Austin                         SR
+
+sqlplus>
+sqlplus>/* 8. */
+sqlplus>select name,grade
+  2  from mountaineer m
+  3  where not exists
+  4  (select 1 from friend where id1=m.id and id2 not in (select id from mountaineer where grade=m.grade));
+NAME                           GR
+------------------------------ --
+Jordan                         SO
+Haley                          JR
+Kris                           JR
+Brittany                       JR
+Gabriel                        SR
+Jessica                        SR
+
+6 rows selected.
+
+sqlplus>
+sqlplus>
+sqlplus>/* 9. */
+sqlplus>select a.name,a.grade,b.name,b.grade,c.name,c.grade
+  2  from mountaineer a
+  3  join likes on a.id=id1
+  4  join mountaineer b on b.id=id2
+  5  join mountaineer c on (a.id,c.id) in (select id1,id2 from friend) and (b.id,c.id) in (select id1,id2 from friend)
+  6  where (a.id,b.id) not in (select id1,id2 from friend);
+NAME                           GR NAME                           GR NAME                           GR
+------------------------------ -- ------------------------------ -- ------------------------------ --
+Andrew                         JR Cassandra                      SO Gabriel                        SO
+
+sqlplus>
+sqlplus>/* 18. */
+sqlplus>insert into friend
+  2  select a.id1,b.id1
+  3  from friend a
+  4  join friend b on a.id2=b.id1
+  5  where (a.id1,b.id2) not in (select id1,id2 from friend)
+  6  and a.id1!=b.id2;
+
+32 rows created.
+
+sqlplus>select * from friend;
+       ID1        ID2
+---------- ----------
+      1510       1381
+      1510       1689
+      1689       1709
+      1381       1247
+      1709       1247
+      1689       1782
+      1782       1468
+      1782       1316
+      1468       1101
+      1468       1641
+      1101       1641
+      1247       1911
+      1247       1501
+      1911       1501
+      1381       1510
+      1689       1510
+      1709       1689
+      1247       1381
+      1247       1709
+      1782       1689
+      1468       1782
+      1316       1782
+      1101       1468
+      1641       1468
+      1641       1101
+      1911       1247
+      1501       1247
+      1501       1911
+      1689       1510
+      1381       1510
+      1782       1689
+      1510       1689
+      1510       1381
+      1689       1709
+      1709       1689
+      1510       1689
+      1316       1782
+      1689       1782
+      1468       1782
+      1689       1782
+      1782       1468
+      1782       1468
+      1709       1247
+      1381       1247
+      1709       1247
+      1381       1247
+      1247       1381
+      1782       1689
+      1709       1689
+      1247       1709
+      1501       1247
+      1911       1247
+      1709       1247
+      1501       1247
+      1911       1247
+      1381       1247
+      1316       1782
+      1468       1782
+      1641       1468
+      1101       1468
+
+60 rows selected.
+
+sqlplus>spool off

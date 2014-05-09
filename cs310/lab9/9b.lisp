@@ -1,0 +1,6 @@
+(define data (' ((name tim)(age  53)(gemder  m))))      
+(say data)
+(set! data (update (' name) (' george) data))
+(say data)
+(set! data (update (' mood) (' happy) data))
+(say data)

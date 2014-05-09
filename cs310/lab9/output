@@ -1,0 +1,23 @@
+say (((name tim) (age 53) (gemder m)))
+[['name', 'tim'], ['age', 53], ['gemder', 'm']]
+None
+update (name george ((name tim) (age 53) (gemder m)))
+((name george) (age 53) (gemder m))
+say (((name george) (age 53) (gemder m)))
+[['name', 'george'], ['age', 53], ['gemder', 'm']]
+None
+update (mood happy ((name george) (age 53) (gemder m)))
+((name george) (age 53) (gemder m) (mood happy))
+say (((name george) (age 53) (gemder m) (mood happy)))
+[['name', 'george'], ['age', 53], ['gemder', 'm'], ['mood', 'happy']]
+None
+last ((a b c d e))
+e
+say (e)
+e
+None
+last ((a))
+a
+say (a)
+a
+None

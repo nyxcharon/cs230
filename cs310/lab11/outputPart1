@@ -1,0 +1,20 @@
+
+goal=member(_, [1, 2, 3]).
+result=member(1,[1,2,3])
+result=member(2,[1,2,3])
+result=member(3,[1,2,3])
+
+goal=last1(_, [1, 2, 3]).
+result=last1(3,[1,2,3])
+
+goal=last2(_, [1, 2, 3]).
+result=last2(3,[1,2,3])
+
+goal=insert(word, anotherword, [1, 2, 3, 4, word], _).
+result=insert(word,anotherword,[1,2,3,4,word],[1,2,3,4,word,anotherword])
+
+goal=q4(_, _, _, _).
+result=q4(2,khilan,25,1560)
+result=q4(3,kaushik,23,3000)
+result=q4(3,kaushik,23,1500)
+result=q4(4,chaitali,25,2060)
